@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
         <head>
             <link rel="stylesheet" href="https://unpkg.com/nes.css/css/nes.min.css">
-            <link rel="stylesheet" href="./css/styles.css">
+
             <link href = "https://fonts.googleapis.com/css?family=Press+Start+2P" rel = "stylesheet">
         </head>
 
@@ -9,11 +10,13 @@
             <span>
                 <center>
                     <h1> Добро пожаловать! </h1>
-                <form>
+                    <form name="user_form">
+                        <input type="text" id="user_name"/>
+                        <input type="text" id="user_password"/>
                     <input
                         type="button"
                         name="Start test"
-                        value="Начать!"
+                        value="Войти"
                         onclick="onRegisterButtonClick()"
                     />
                 </form>

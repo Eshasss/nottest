@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "nes.css": "^2.3.0"
+  }
+}
