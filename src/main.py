@@ -13,24 +13,33 @@ app.mount("/static", StaticFiles(directory="./static", html=True), name="static"
 async def home():
     return FileResponse("static/html/index.html")
 
-@app.post("/newguy")
+@app.post("/newguy/")
 async def home(data: Request):
     data = await data.json()
-    if add_user(data):
-        return JSONResponse(content={}, status_code=200)
-    else:
-        #alrdy exixsts
+    if user_exist(data):
         return JSONResponse(content={}, status_code=403)
+    else:
+        add_user(data)
+        return JSONResponse(content={}, status_code=200)
 
-@app.post("/oldguy")
+@app.post("/oldguy/")
 async def find(data: Request):
     data = await data.json()
     if login_check(data):
         return JSONResponse(content={}, status_code=200)
     else:
         #неверный пароль или невырный токен или неверный ник
-        return JSONResponse(status_code=404)
+        return JSONResponse(content={}, status_code=404)
 
 @app.get("/end/")
 async def hello():
     return FileResponse("static/html/end.html")
+
+
+@app.get("/login/")
+async def login():
+    return FileResponse("static/html/login.html")
+
+@app.get("/register/")
+async def register():
+    return FileResponse("static/html/register.html")

@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from .db_init import engine, User
+from .db_init import engine, User, Token
 from sqlalchemy import select
 from sqlalchemy.sql import exists
+import uuid
 
 
 session = Session(engine)
@@ -22,16 +23,26 @@ def add_user(data):
     True - create
     False - already exists
     """
+    new_token = uuid.uuid4()
     
-    # if not login_check:
-    #     session.add(User(name =data["name"], password = data["password"]))
-    #     session.commit()
-    #     return True
-    # else: 
-    #     return False
-    session.add(User(name =data["name"], password = data["password"]))
+    session.add(User(name =data["name"], 
+                    password = data["password"],
+                    tokens=[Token(token=new_token)]))
     session.commit()
-    return True
+
+def is_logged(data):
+    query = session.query(User).filter(name =data["name"])
+    myid = query.id
+    token = session.query(User).filter(user_id=myid)
+    mytoken = token.token
+    if mytoken == "":
+        return True
+    else:
+        return False
+    
+
+def logout(data):
+    pass
 
 def delete_user(uid):
     """
@@ -45,16 +56,14 @@ def delete_user(uid):
 def login_check(data):
     """
     Checks is the password and token correct and is user corrently online
-    True - already registered
-    False - Not registered   /sth is wrong
+    True - successs
+    False - Not registered   /sth else is wrong
     """
-    if user_exist(data):
-        query = session.query(User).filter(
-            User.name==data["name"] 
-            & User.password==data["password"]).scalar()
-        return query
-    else:
-        return "Wrong password"
+    query = session.query(exists().where(
+        (User.name==data["name"])
+            & (User.password==data["password"]))).scalar()
+    return query
+
 def change_password():
     """
     Changes the password password

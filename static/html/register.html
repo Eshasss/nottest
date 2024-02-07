@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+        <head>
+            <link rel="stylesheet" href="https://unpkg.com/nes.css/css/nes.min.css">
+
+            <link href = "https://fonts.googleapis.com/css?family=Press+Start+2P" rel = "stylesheet">
+        </head>
+
+        <body>
+            <span>
+                <center>
+                    <h1> Зарегестрировать новый аккаунт </h1>
+                    <p id='ErrorText' style='display: none'>ошибка упс</p>
+                    <form name="user_form">
+                        <input type="text" id="user_name"/>
+                        <input type="text" id="user_password"/>
+                    <input
+                        type="button"
+                        name="Register"
+                        value="Зарегаться"
+                        onclick="onRegisterButtonClick()"
+                    />
+                </form>
+            </center>
+        <script  type="text/javascript" src="/static/js/register.js"></script>
+    </body>
+</html>
