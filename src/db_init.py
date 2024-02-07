@@ -1,23 +1,30 @@
-from sqlalchemy import create_engine, String, ForeignKey, Column, String, Integer, CHAR, Column  
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from typing import List
+from sqlalchemy import create_engine
 
-Base = declarative_base()
 
+class Base(DeclarativeBase):
+    pass
 
 class User(Base):
     __tablename__ = "user_table"
 
-    uid = Column(Integer, primary_key=True)
-    name = Column("username", String)
-    password = Column("password", String)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(20))
+    password: Mapped[str] = mapped_column(String(20))
+    tokens: Mapped[List["Token"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
 
-    def __init__(self, uid, name, password):
-        self.uid = uid
-        self.name = name
-        self.password = password
-    def __repr__(self) -> str:
-        return f"{self.uid} {self.name} {self.password}"
+
+class Token(Base):
+    __tablename__ = "tokens_table"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    token: Mapped[str]
+    user: Mapped["User"] = relationship(back_populates="tokens")
+    user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"))
 
 engine = create_engine("sqlite:///test.db", echo = True)
 
