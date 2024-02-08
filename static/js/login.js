@@ -25,10 +25,9 @@ function onLoginButtonClick() {
     .then((json) => {
       console.log("D", status)
       if (status == 200) {
-        console.log("dsdsds", status)
-            
+        sessionStorage.setItem("user_token", json.token);   
       } else {
-        console.log("smthswo", status)
+        console.log("eroorororo", status)
         var text = document.getElementById("ErrorText");
         text.style.display = "block"
       }})

@@ -3,17 +3,18 @@ from .db_init import engine, User, Token
 from sqlalchemy import select
 from sqlalchemy.sql import exists
 import uuid
-
+ 
+#тут путаница с функцией в функции в которой функции берегите глаза пожалуйста!
 
 session = Session(engine)
 
-def user_exist(user):
+def user_exist(data):
     """
     Checks does the login exist
     True - Exists
     False - Nope
     """
-    return session.query(exists().where(User.name=="name")).scalar()
+    return session.query(exists().where(User.name==data["name"])).scalar()
     
 
 def add_user(data):
@@ -23,28 +24,57 @@ def add_user(data):
     True - create
     False - already exists
     """
-    new_token = uuid.uuid4()
+    new_token = str(uuid.uuid4())
     
     session.add(User(name =data["name"], 
                     password = data["password"],
                     tokens=[Token(token=new_token)]))
     session.commit()
 
-def is_logged(data):
-    query = session.query(User).filter(name =data["name"])
-    myid = query.id
-    token = session.query(User).filter(user_id=myid)
-    mytoken = token.token
-    if mytoken == "":
+
+def get_token_by_name(data):
+    id_query = session.query(User).filter(name =data["name"])
+    myid = id_query.id
+    token_query = session.query(User).filter(user_id=myid)
+    mytoken = token_query.token
+    return mytoken
+    
+
+def login_user(data):
+
+    if is_logged:
+        new_token = str(uuid.uuid4())
+        id_query = session.query(User).filter(name==data["name"])
+        myid = id_query.id
+        token_query = session.query(User).filter(user_id=myid)
+        token_query.token = new_token
+        #все верно ура
         return True
     else:
+        #дэмн 
+        return False
+
+
+def is_logged(data):
+    mytoken = get_token_by_name(data)
+    if mytoken == "":
+        #не онлайн
+        return True
+    else:
+        #онлайн
         return False
     
 
 def logout(data):
-    pass
+    id_query = session.query(User).filter(name =data["name"])
+    myid = id_query.id
+    token_query = session.query(User).filter(user_id=myid)
+    token_query.token = ""
+    session.commit()
+    
+    
 
-def delete_user(uid):
+def delete_user(data):
     """
     Deletes the user
     """
@@ -61,7 +91,8 @@ def login_check(data):
     """
     query = session.query(exists().where(
         (User.name==data["name"])
-            & (User.password==data["password"]))).scalar()
+            & (User.password==data["password"])
+            )).scalar()
     return query
 
 def change_password():

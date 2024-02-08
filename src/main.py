@@ -1,5 +1,5 @@
 
-from .db_manager import user_exist, add_user, login_check, change_password
+from .db_manager import user_exist, add_user, login_check, change_password, login_user, get_token_by_name
 import json
 from fastapi import FastAPI,Request
 from fastapi.responses import FileResponse, JSONResponse
@@ -26,10 +26,15 @@ async def home(data: Request):
 async def find(data: Request):
     data = await data.json()
     if login_check(data):
-        return JSONResponse(content={}, status_code=200)
-    else:
-        #неверный пароль или невырный токен или неверный ник
-        return JSONResponse(content={}, status_code=404)
+        if login_user(data):
+            #successfully login!
+            token = get_token_by_name(data)
+            return JSONResponse(content={"token":token}, status_code=200)
+        #wrong token
+
+        #неверный пароль
+    return JSONResponse(content={}, status_code=403)
+    
 
 @app.get("/end/")
 async def hello():
