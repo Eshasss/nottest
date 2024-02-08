@@ -33,20 +33,21 @@ def add_user(data):
 
 
 def get_token_by_name(data):
-    id_query = session.query(User).filter(name =data["name"])
-    myid = id_query.id
-    token_query = session.query(User).filter(user_id=myid)
-    mytoken = token_query.token
+    id_query = session.query(User).filter(User.name==data["name"])
+    myid = id_query.one().id
+    token_query = session.query(Token).filter(Token.user_id==myid)
+    mytoken = token_query.one().token
     return mytoken
     
 
 def login_user(data):
-
     if is_logged:
         new_token = str(uuid.uuid4())
-        id_query = session.query(User).filter(name==data["name"])
-        myid = id_query.id
-        token_query = session.query(User).filter(user_id=myid)
+        id_query = session.query(User).filter(User.name==data["name"])
+
+        myid = id_query.one().id
+
+        token_query = session.query(User).filter(Token.user_id==myid)
         token_query.token = new_token
         #все верно ура
         return True
@@ -66,9 +67,9 @@ def is_logged(data):
     
 
 def logout(data):
-    id_query = session.query(User).filter(name =data["name"])
+    id_query = session.query(User).filter(User.name==data["name"])
     myid = id_query.id
-    token_query = session.query(User).filter(user_id=myid)
+    token_query = session.query(User).filter(Token.user_id==myid)
     token_query.token = ""
     session.commit()
     

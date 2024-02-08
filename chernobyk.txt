@@ -39,3 +39,5 @@ https://i.pinimg.com/736x/22/50/1d/22501dfc2b2911601676ef23ca06a080.jpg
 STACKOWEFLOW
 https://stackoverflow.com/questions/59929028/python-fastapi-error-422-with-post-request-when-sending-json-data
 https://stackoverflow.com/questions/7646173/sqlalchemy-exists-for-query
+https://stackoverflow.com/questions/62272167/flask-sqlalchemy-getting-record-by-id
+https://stackoverflow.com/questions/77963695/get-query-id-from-an-given-query-in-sqlalchemy#comment137446075_77963695
