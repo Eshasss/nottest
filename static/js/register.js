@@ -22,15 +22,15 @@ function onRegisterButtonClick() {
       .then((json) => {
         console.log("D", status)
         if (status == 200) {
-          console.log("dsdsds", status)
-          alert("ne lox")
+          console.log("dsdsds", status);
+          window.location.replace("http://localhost:8000/test/");
               
         } else {
-          console.log("smthswo", status)
+          console.log("smthswo", status);
           var text = document.getElementById("ErrorText");
-            text.style.display = "block"
-            alert(" lox")
+          text.style.display = "block";
+            
         }})
       .catch((error) => console.log(error))
-      //window.location.replace("http://localhost:8000/end/");
+
       }

@@ -1,16 +1,3 @@
-body {
-	font-family: 'Press Start 2P', cursive;
-	font-size: 1600px;
-	padding: 5px;
-}
+.{
 
-* {
-	box-sizing: border-box;
-}
-
-.nes-button {
-    width: 90%;
-}
-button {
-    width: 100%;
 }

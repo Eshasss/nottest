@@ -22,7 +22,7 @@ async def home(data: Request):
         add_user(data)
         return JSONResponse(content={}, status_code=200)
 
-@app.post("/oldguy/")
+@app.post("/login/")
 async def find(data: Request):
     data = await data.json()
     if login_check(data):
@@ -40,6 +40,9 @@ async def find(data: Request):
 async def hello():
     return FileResponse("static/html/end.html")
 
+@app.get("/test/")
+async def test():
+    return FileResponse("static/html/test.html")
 
 @app.get("/login/")
 async def login():
@@ -48,3 +51,6 @@ async def login():
 @app.get("/register/")
 async def register():
     return FileResponse("static/html/register.html")
+
+
+
