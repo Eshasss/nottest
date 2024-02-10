@@ -1,3 +1,5 @@
+надо запустить db-init.py
+
 # almostt donee
 
 # TODO:
